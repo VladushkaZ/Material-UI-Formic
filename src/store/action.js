@@ -1,30 +1,20 @@
-import { createAction } from '@reduxjs/toolkit';
-
 export const ActionType = {
+  LOGIN: 'user/login',
   LOGOUT: 'user/logout',
   REDIRECT_TO_ROUTE: 'user/redirectToRoute',
   LOAD_USER_DATA: 'user/login',
 };
 
-export const loadUserData = createAction(
-  ActionType.LOAD_USER_DATA,
-  (userData) => ({
-    payload: userData,
-  }),
-);
-
-export const requireAuthorization = createAction(
-  ActionType.REQUIRED_AUTHORIZATION,
-  (status) => ({
+export const ActionCreator = {
+  requireAuthorization: (status) => ({
+    type: ActionType.REQUIRED_AUTHORIZATION,
     payload: status,
   }),
-);
-
-export const logout = createAction(ActionType.LOGOUT);
-
-export const redirectToRoute = createAction(
-  ActionType.REDIRECT_TO_ROUTE,
-  (url) => ({
+  logout: () => ({
+    type: ActionType.LOGOUT,
+  }),
+  redirectToRoute: (url) => ({
+    type: ActionType.REDIRECT_TO_ROUTE,
     payload: url,
   }),
-);
+};

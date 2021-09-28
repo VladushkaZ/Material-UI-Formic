@@ -1,9 +1,16 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { connect } from 'react-redux';
-import { login } from '../../store/api-action';
+import {login} from '../../store/api-action';
+import { PropTypes } from 'prop-types';
 
-function Basic() {
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit(authData) {
+    dispatch(login(authData));
+  },
+});
+
+function Basic({ onSubmit }) {
   return (
     <div>
       <Formik
@@ -20,10 +27,9 @@ function Basic() {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
+          /*eslint-disable */
           setTimeout(() => {
-            /*eslint-disable */
-            alert(JSON.stringify(values, null, 2));
-            /*eslint-enable */
+            onSubmit({email: values.email, password: values.password});
             setSubmitting(false);
           }, 400);
         }}
@@ -35,8 +41,6 @@ function Basic() {
           handleChange,
           handleBlur,
           handleSubmit,
-          isSubmitting,
-          /* and other goodies */
         }) => (
           <form onSubmit={handleSubmit}>
             <h3>Sing in...</h3>
@@ -59,7 +63,7 @@ function Basic() {
             />
             {errors.password && touched.password && errors.password}
             <a href="/">Forgot password?</a>
-            <button type="submit" disabled={isSubmitting}>
+            <button type="submit">
               Sing In
             </button>
             <div>
@@ -72,12 +76,10 @@ function Basic() {
     </div>
   );
 }
+Basic.propTypes = {
+  onSubmit: PropTypes.string.isRequired,
+};
 
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(authData) {
-    dispatch(login(authData));
-  },
-});
 
 export {Basic};
 export default connect(null, mapDispatchToProps)(Basic);

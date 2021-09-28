@@ -1,12 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Basic from '../loginForm/loginForm';
 
 function Login() {
   return (
     <div className="page">
-      <button className="green">
-        <p>MARKET</p>
-      </button>
+      <Link to="/page">
+        <button className="green">
+          <p>MARKET</p>
+        </button>
+      </Link>
       <button className="grey">
         <p>PROJECTS</p>
       </button>
