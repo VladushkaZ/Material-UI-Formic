@@ -3,11 +3,14 @@ import Main from '../main/main';
 import { PropTypes } from 'prop-types';
 import Login from '../login/login';
 import Page from '../page/page';
-import { AppRoute } from '../../const';
+import { AppRoute} from '../../const';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {getAuthorizationStatus} from '../../store/user/selector';
+import {connect} from 'react-redux';
 
 function App(props) {
-  const {user, handleChange, value} = props;
+  const {user, value} = props;
+
   return (
     <BrowserRouter>
       <Switch>
@@ -18,7 +21,7 @@ function App(props) {
           <Login/>
         </Route>
         <Route exact path={AppRoute.PAGE}>
-          <Page handleChange={handleChange} value={value}/>
+          <Page value={value}/>
         </Route>
       </Switch>
     </BrowserRouter>
@@ -27,8 +30,12 @@ function App(props) {
 
 App.propTypes = {
   user: PropTypes.string.isRequired,
-  handleChange: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  authorizationStatus: getAuthorizationStatus(state),
+});
+
+export {App};
+export default connect(mapStateToProps, null)(App);

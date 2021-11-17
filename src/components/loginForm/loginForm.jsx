@@ -27,7 +27,6 @@ function Basic({ onSubmit }) {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          /*eslint-disable */
           setTimeout(() => {
             onSubmit({email: values.email, password: values.password});
             setSubmitting(false);
@@ -77,7 +76,7 @@ function Basic({ onSubmit }) {
   );
 }
 Basic.propTypes = {
-  onSubmit: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 

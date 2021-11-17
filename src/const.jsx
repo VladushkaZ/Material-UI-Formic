@@ -12,5 +12,8 @@ export const AuthorizationStatus = {
 export const APIRoute = {
   PAGE: '/page',
   LOGIN: '/login',
-  LOGOUT: '/login',
+  LOGOUT: '/logout',
 };
+
+export const isCheckedAuth = (authorizationStatus) =>
+  authorizationStatus === AuthorizationStatus.UNKNOWN;

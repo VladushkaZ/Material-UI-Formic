@@ -1,9 +1,11 @@
 import { PropTypes } from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logout } from '../../store/api-action';
 
 function Main(props) {
-  const { user } = props;
+  const { user, logoutApp } = props;
   return (
     <div className="page">
       <Link to="/page">
@@ -23,7 +25,13 @@ function Main(props) {
         <img src="../images/user.png" alt="user" />
         <div>
           <p>{user}</p>
-          <Link to="/login">
+          <Link
+            to="/login"
+            onClick={(evt) => {
+              evt.preventDefault();
+              logoutApp();
+            }}
+          >
             <img src="../images/Logout.svg" alt="Logout" />
             Logout
           </Link>
@@ -35,6 +43,15 @@ function Main(props) {
 
 Main.propTypes = {
   user: PropTypes.string.isRequired,
+  logoutApp: PropTypes.func.isRequired,
 };
 
-export default Main;
+const mapDispatchToProps = (dispatch) => ({
+  logoutApp() {
+    dispatch(logout());
+  },
+});
+
+export { Main };
+export default connect(null, mapDispatchToProps)(Main);
+

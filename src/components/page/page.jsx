@@ -6,6 +6,9 @@ import TabPanel from '@material-ui/lab/TabPanel';
 import { Badge, Box } from '@material-ui/core';
 import { Tab } from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { logout } from '../../store/api-action';
+import { PropTypes } from 'prop-types';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,12 +46,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Page() {
-  const [value, setValue] = React.useState('1');
+function Page(props) {
+  const [value] = React.useState('1');
   const classes = useStyles();
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const { logoutApp } = props;
+
   return (
     <div id="content">
       <div id="menu">
@@ -65,7 +67,6 @@ function Page() {
               orientation="vertical"
               variant="scrollable"
               value={value}
-              onChange={handleChange}
               aria-label="Vertical tabs example"
               sx={{ borderRight: 1, borderColor: 'green',
               }}
@@ -182,7 +183,13 @@ function Page() {
             </svg>
             <span>Main Page</span>
           </Link>
-          <Link to="/login">
+          <Link
+            to="/login"
+            onClick={(evt) => {
+              evt.preventDefault();
+              logoutApp();
+            }}
+          >
             <svg
               width="18"
               height="18"
@@ -204,4 +211,16 @@ function Page() {
   );
 }
 
-export default Page;
+Page.propTypes = {
+  logoutApp: PropTypes.func.isRequired,
+};
+
+
+const mapDispatchToProps = (dispatch) => ({
+  logoutApp() {
+    dispatch(logout());
+  },
+});
+
+export { Page };
+export default connect(null, mapDispatchToProps)(Page);
